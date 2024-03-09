@@ -1,6 +1,6 @@
 from django.db import models
-from employee import Employee
-from timesheet import TimeSheet
+from .employee import Employee
+from .timesheet import TimeSheet
 
 class EmployeeTimeSheet(models.Model):
     employee = models.ForeignKey(Employee,related="employee",on_delete=models.SET_NULL)

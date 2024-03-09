@@ -1,5 +1,5 @@
 from django.db import models
-from client import Client
+from .client import Client
 
 class CasualOrder(models.Model):
     client = models.ForeignKey(Client,on_delete=models.SET_NULL)

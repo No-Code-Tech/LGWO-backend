@@ -1,5 +1,5 @@
 from django.db import models
-from employee import Employee
+from .employee import Employee
 
 class Document(models.Model):
     name = models.CharField(max_length=255)
