@@ -13,8 +13,8 @@ class Document(models.Model):
         app_label = "employee"
 
 class EmployeeDocument(models.Model):
-    document_type = models.ForeignKey(Document,related_name="document",on_delete=models.SET_NULL)
-    employee = models.ForeignKey(Employee,related_name="employee",on_delete=models.CASCADE)
+    document_type = models.ForeignKey(Document,on_delete=models.SET_NULL,null=True)
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE,null=True)
     file = models.FileField(upload_to="employee/documents")
 
     def __str__(self) -> str:

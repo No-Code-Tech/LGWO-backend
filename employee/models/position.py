@@ -10,8 +10,8 @@ class Position(models.Model):
 
 
 class EmployeePosition(models.Model):
-    position = models.OneToOneField(Position,related_name="position",on_delete=models.CASCADE)
-    employee = models.ForeignKey(Employee, related_name="employee",on_delete=models.CASCADE)
+    position = models.OneToOneField(Position,on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee,on_delete=models.CASCADE)
 
     def __str__(self):
         return f"ID: {self.employee.id} {self.employee.first_name} {self.position.name}"

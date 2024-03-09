@@ -1,5 +1,5 @@
 from django.db import models
-from client import Client
+from .client import Client
 
 
 class Contract(models.Model):

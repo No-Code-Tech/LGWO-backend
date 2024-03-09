@@ -4,9 +4,9 @@ from ...client.models.client import Client
 
 class TimeSheet(models.Model):
     drop_time = models.DateTimeField()
-    drop_driver = models.ForeignKey(Employee,on_delete=models.NULL)
+    drop_driver = models.ForeignKey(Employee,related_name="drop_driver",on_delete=models.NULL)
     pickup_time = models.DateTimeField()
-    pickup_driver = models.ForeignKey(Employee,on_delete=models.NULL)
+    pickup_driver = models.ForeignKey(Employee,related_name="pickup_driver",on_delete=models.NULL)
     working_hours = models.PositiveIntegerField()
     client = models.ForeignKey(Client, on_delete=models.NULL)
     department = models.CharField(max_length=100)
