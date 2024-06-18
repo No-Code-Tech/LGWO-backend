@@ -3,7 +3,7 @@ from .client import Client
 
 
 class Contract(models.Model):
-    client = models.ForeignKey(Client,related_name="contracts",on_delete=models.SET_NULL)
+    client = models.ForeignKey(Client,related_name="contracts",on_delete=models.SET_NULL,null=True)
     signed_date = models.DateField(auto_now_add=True)
     expiry_date = models.DateField()
     is_terminated = models.BooleanField(default=False)

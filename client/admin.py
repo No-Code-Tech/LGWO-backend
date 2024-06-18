@@ -1,4 +1,7 @@
 from django.contrib import admin
+from .models import CasualOrder,Client,Contract
 
-# Register your models here.
-# Register your models here.
+admin.site.register(CasualOrder)
+admin.site.register(Client)
+admin.site.register(Contract)
+

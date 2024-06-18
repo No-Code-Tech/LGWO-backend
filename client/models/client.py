@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Client(models.Model):
     name = models.CharField(max_length=100)
     location = models.CharField(max_length=100)
@@ -9,6 +8,7 @@ class Client(models.Model):
     contact_manager_number = models.CharField(max_length=10)
     email = models.EmailField()
     number = models.CharField(max_length=10)
+
 
     def __str__(self):
         return self.name

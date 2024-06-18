@@ -20,7 +20,6 @@ PASSWORD = os.environ.get("PASSWORD")
 HOST = os.environ.get("HOST")
 PORT = os.environ.get("PORT")
 
-print(NAME,USER,PASSWORD,HOST,PORT)
 
 # Application definition
 
@@ -31,7 +30,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'django_extensions',
+    'client',
+    'employee',
+    'finance',
+    'supplier',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -128,3 +133,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'user.CustomUser'
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
+
