@@ -13,7 +13,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-if os.environ.get("PG"):
+if os.environ.get("DATABASE")=="POSTGRES":
     SECRET_KEY = os.environ.get('SECRET_KEY')
     NAME = os.environ.get("NAME")
     USER = os.environ.get("USER")
@@ -74,24 +74,24 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    "default": {
-        "ENGINE" : "django.db.backends.postgresql",
-        "NAME":NAME,
-        "USER":USER,
-        "PASSWORD":PASSWORD,
-        "HOST":HOST,
-        "PORT":PORT,
+if os.environ.get("DATABASE")=="SQLITE":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+if os.environ.get("DATABASE")=="POSTGRES":
+    DATABASES = {
+        "default": {
+            "ENGINE" : "django.db.backends.postgresql",
+            "NAME":NAME,
+            "USER":USER,
+            "PASSWORD":PASSWORD,
+            "HOST":HOST,
+            "PORT":PORT,
+        }
+    }
 
 
 
