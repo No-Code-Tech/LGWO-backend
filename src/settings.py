@@ -13,14 +13,14 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-NAME = os.environ.get("NAME")
-USER = os.environ.get("USER")
-PASSWORD = os.environ.get("PASSWORD")
-HOST = os.environ.get("HOST")
-PORT = os.environ.get("PORT")
+if os.environ.get("PG"):
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    NAME = os.environ.get("NAME")
+    USER = os.environ.get("USER")
+    PASSWORD = os.environ.get("PASSWORD")
+    HOST = os.environ.get("HOST")
+    PORT = os.environ.get("PORT")
 
-print(NAME,USER,PASSWORD,HOST,PORT)
 
 # Application definition
 
@@ -31,7 +31,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rest_framework',
+    'django_extensions',
+    'client',
+    'employee',
+    'finance',
+    'supplier',
+    'user',
+   'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -49,7 +56,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +135,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'user.CustomUser'
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
+
