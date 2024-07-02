@@ -13,12 +13,13 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
-NAME = os.environ.get("NAME")
-USER = os.environ.get("USER")
-PASSWORD = os.environ.get("PASSWORD")
-HOST = os.environ.get("HOST")
-PORT = os.environ.get("PORT")
+if os.environ.get("PG"):
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    NAME = os.environ.get("NAME")
+    USER = os.environ.get("USER")
+    PASSWORD = os.environ.get("PASSWORD")
+    HOST = os.environ.get("HOST")
+    PORT = os.environ.get("PORT")
 
 
 # Application definition
@@ -36,7 +37,8 @@ INSTALLED_APPS = [
     'employee',
     'finance',
     'supplier',
-    'user'
+    'user',
+   'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

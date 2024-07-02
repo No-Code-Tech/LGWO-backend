@@ -15,6 +15,7 @@ class EmployeeTimeSheet(models.Model):
     rate = models.FloatField(blank=True,null=True)
     is_absent = models.BooleanField(blank=True,null=True)
     remark = models.TextField(blank=True,null=True)
+    is_verified = models.BooleanField(blank=True,null=True,default=False)
 
 
     def __str__(self):
@@ -22,5 +23,19 @@ class EmployeeTimeSheet(models.Model):
     class Meta:
         app_label = "employee"
         ordering = ["duty_start_time"]
+
+
+'''
+Verification precedence
+    Admin->Manager->Team Leader (verified by Team Leader should be verified by Manager as well)
+'''
+                        
+class EmployeeTimeSheetVerification(models.Model):
+    timesheet = models.ForeignKey(EmployeeTimeSheet,related_name="logs",verbose_name="Employee TimeSheet",on_delete=models.SET_NULL,null=True)
+    verified_by = models.ForeignKey(User,related_name="verified",on_delete=models.SET_NULL,null=True)
+
+    def __str__(self):
+        return self.verified_by.email
+
 
 

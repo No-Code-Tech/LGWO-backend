@@ -9,7 +9,7 @@ class EmployeeTimeSheetField(serializers.RelatedField):
     def to_representation(self, value):
         timesheet = {
             "id":value.id,
-            "duty_start_time":value.duty_start_time.strftime('%Y-%m-%d %H:%M'),
+            "duty_start_time":value.duty_start_time.strftime('%Y-%m-%d'),
             "total_duty_hours":value.total_duty_hours,
             "is_absent":value.is_absent,
             "client":value.timesheet.client.name,
@@ -40,7 +40,11 @@ class EmployeeDocumentField(serializers.RelatedField):
 
 
 
+class EmployeeProfileSerialier(serializers.ModelSerializer):
 
+    class Meta:
+        model = EmployeeProfile
+        fields = '__all__'
     
 
 class EmployeeDetailSerializer(serializers.ModelSerializer):
@@ -48,10 +52,11 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
     timesheets = EmployeeTimeSheetField(many=True,read_only=True)
     documents = EmployeeDocumentField(many=True,read_only=True)
     surname = serializers.CharField(source="last_name")
+    profile  = EmployeeProfileSerialier()
     
     class Meta:
         model = CustomUser
-        fields = ("IID",'first_name',"surname","documents","mobile_number",'timesheets')
+        fields = ("IID",'first_name',"surname","documents","mobile_number",'timesheets',"profile")
 
 
     def __init__(self, *args, **kwargs):

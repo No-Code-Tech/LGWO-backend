@@ -9,6 +9,8 @@ class Contract(models.Model):
     is_terminated = models.BooleanField(default=False)
     is_terminate_date = models.DateField(null=True,blank=True)
     termination_reason = models.TextField(blank=True,null=True)
+    rate = models.FloatField(null=True, blank=True)
+    is_hourly = models.BooleanField(default=False)
     document = models.FileField(upload_to="contract")
     
     def __str__(self):

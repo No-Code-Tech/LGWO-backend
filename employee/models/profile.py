@@ -23,7 +23,7 @@ class EmployeeProfile(models.Model):
         REGULAR = "RG",_("Regular")
         NOT_ASSIGNED = "NA",_("Not Assigned")
 
-    user = models.OneToOneField(User,related_name="user",on_delete=models.SET_NULL,null=True)
+    user = models.OneToOneField(User,related_name="profile",on_delete=models.SET_NULL,null=True)
     first_name = models.CharField(max_length=255)
     middle_name = models.CharField(max_length=255,blank=True,null=True)
     last_name = models.CharField(max_length=255)
