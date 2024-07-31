@@ -49,8 +49,6 @@ class TimeSheetViewSet(viewsets.ModelViewSet):
     queryset = TimeSheet.objects.all()
 
 class EmployeeTimeSheetViewSet(viewsets.ModelViewSet):
-
-
     serializer_class = EmployeeTimeSheetSerializer
     queryset = EmployeeTimeSheet.objects.all()
 
@@ -103,7 +101,7 @@ class EmployeeListView(GroupRequiredMixin,viewsets.ViewSet):
         else: 
             user.profile.status = status
             user.profile.save()
-            response["messgae"] = f"Status is changed to {status}"
+            response["message"] = f"Status is changed to {status}"
         
 
 
