@@ -17,7 +17,7 @@ class Document(models.Model):
         app_label = "employee"
 
 class EmployeeDocument(models.Model):
-    document_type = models.OneToOneField(Document,on_delete=models.SET_NULL,null=True,verbose_name="Document Name")
+    document_type = models.ForeignKey(Document,on_delete=models.SET_NULL,null=True,verbose_name="Document Name")
     employee = models.ForeignKey(User,related_name="documents",on_delete=models.CASCADE,null=True)
     file = models.FileField(upload_to="employee/documents")
     issued_date = models.DateField(null=True,blank=True)

@@ -9,10 +9,7 @@ class IsOwner(permissions.BasePermission):
 
 
 class IsInGroup(permissions.BasePermission):
-
     group_name = None
-
-
     def has_permission(self, request, view):
         return request.user and request.user.group.filter(name=self.group_name).exists()
 

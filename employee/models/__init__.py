@@ -6,6 +6,7 @@ from .employee_timesheet import EmployeeTimeSheet,EmployeeTimeSheetVerification
 from .position import Position,EmployeePosition
 from .timesheet import TimeSheet
 from .profile import EmployeeProfile
+from .employee_log import Cycle,EmployeeCycle,EmplpoyeeLog
 
 
 __all__ = [
@@ -19,4 +20,7 @@ __all__ = [
     "EmployeeProfile",
     "EmployeePosition",
     "EmployeeTimeSheetVerification"
+    'Cycle',
+    'EmployeeCycle',
+    'EmplpoyeeLog'
 ]
