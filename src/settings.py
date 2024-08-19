@@ -1,25 +1,31 @@
 
 from pathlib import Path
-from dotenv import load_dotenv,find_dotenv
+# from dotenv import load_dotenv,find_dotenv
 import os 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(find_dotenv())
+# load_dotenv(find_dotenv())
+
+from decouple import config
 
 
+
+
+
+SECRET_KEY = config("SECRET_KEY")
 
 
 DEBUG = True
 ALLOWED_HOSTS = []
 
 
-if os.environ.get("DATABASE")=="POSTGRES":
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    NAME = os.environ.get("NAME")
-    USER = os.environ.get("USER")
-    PASSWORD = os.environ.get("PASSWORD")
-    HOST = os.environ.get("HOST")
-    PORT = os.environ.get("PORT")
+# if os.environ.get("DATABASE")=="POSTGRES":
+#     SECRET_KEY = os.environ.get('SECRET_KEY')
+#     NAME = os.environ.get("NAME")
+#     USER = os.environ.get("USER")
+#     PASSWORD = os.environ.get("PASSWORD")
+#     HOST = os.environ.get("HOST")
+#     PORT = os.environ.get("PORT")
 
 
 # Application definition
@@ -38,7 +44,7 @@ INSTALLED_APPS = [
     'finance',
     'supplier',
     'user',
-   'drf_yasg',
+    'drf_yasg',
     "corsheaders",
 
 ]
@@ -77,24 +83,25 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-if os.environ.get("DATABASE")=="SQLITE":
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+# if os.environ.get("DATABASE")=="SQLITE":
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
-if os.environ.get("DATABASE")=="POSTGRES":
-    DATABASES = {
-        "default": {
-            "ENGINE" : "django.db.backends.postgresql",
-            "NAME":NAME,
-            "USER":USER,
-            "PASSWORD":PASSWORD,
-            "HOST":HOST,
-            "PORT":PORT,
-        }
-    }
+}
+# if os.environ.get("DATABASE")=="POSTGRES":
+    # DATABASES = {
+    #     "default": {
+    #         "ENGINE" : "django.db.backends.postgresql",
+    #         "NAME":NAME,
+    #         "USER":USER,
+    #         "PASSWORD":PASSWORD,
+    #         "HOST":HOST,
+    #         "PORT":PORT,
+    #     }
+    # }
 
 
 
@@ -147,7 +154,7 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 
 
 CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000",
+        "http://localhost:5173",
 ]
 
 

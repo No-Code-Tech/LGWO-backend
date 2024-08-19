@@ -5,7 +5,9 @@ class IsOwner(permissions.BasePermission):
         return obj.user == request.user or request.user.is_superuser
 
 
-
+class IsStaff(permissions.BasePermission):
+    def has_permission(self,request,view):
+        return request.user.is_staff
 
 
 class IsInGroup(permissions.BasePermission):
@@ -22,7 +24,6 @@ class GroupRequiredMixin:
         class GroupRequiredPermission(IsInGroup):
             def __init__(self):
                 self.group_name = self.group_name
-        print("it was here")
         permission_classes = super().get_permissions()
 
         permission_classes.append(GroupRequiredPermission())     

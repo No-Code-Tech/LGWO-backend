@@ -5,11 +5,10 @@ from django.db import models
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self,password,**extra_fields):
-
-
+    def create_user(self,password=None,**extra_fields):
         user = self.model(**extra_fields)
         user.set_password(password)
+        print(user)
         user.save(using=self._db)
         return user
 

@@ -61,14 +61,11 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
         self.fields['documents'].context.update(self.context)
 
 
     # def to_representation(self, instance):
     #     return super().to_representation(instance)
-
-
 
 
 class EmployeeListSerializer(serializers.ModelSerializer):
@@ -77,6 +74,16 @@ class EmployeeListSerializer(serializers.ModelSerializer):
     class Meta: 
         model = CustomUser
         fields = ("IID",'first_name',"surname","mobile_number")
+
+
+
+class EmployeeCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = "__all__"
+
+
 
 
 
