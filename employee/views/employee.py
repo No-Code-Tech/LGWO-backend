@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from ..serializers import EmployeeCreateSerializer,EmployeeDocumentSerializer,EmployeeListSerializer,DocumentSerializer
+from ..serializers import EmployeeCreateSerializer,EmployeeDocumentSerializer,EmployeeListSerializer,DocumentSerializer,EmployeeDetailSerializer
 from ..models import EmployeeDocument,Document
 from ..permissions import IsOwner
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
@@ -16,7 +16,7 @@ from rest_framework import status
 User = get_user_model()
 
 class EmployeeViewSet(viewsets.ViewSet):
-    permission_classes = [IsStaff,IsAuthenticated]
+    # permission_classes = [IsStaff,IsAuthenticated]
     def list(self,request):
         try:
             message = "All employees List"
@@ -46,19 +46,12 @@ class EmployeeViewSet(viewsets.ViewSet):
 
     def create(self, request):
         try:
-            data = {
-                    "IID":request.data.get("IID"),
-                    "email": request.data.get("email"),
-                    "password":request.data.get("password"),
-                    "username":request.data.get("username"),
-                    "first_name":request.data.get("first_name"),
-                    "last_name":request.data.get("last_name"),
-                    "mobile_number":request.data.get("mobile_number"),
-
-            }
-            serializer = EmployeeCreateSerializer(data=data)
+            serializer = EmployeeCreateSerializer(data=request.data)
             if serializer.is_valid():
+                
+
                 serializer.save()
+                print("It was here")
                 return Response({
                     "data": serializer.data,  
                     "message": "User has been successfully created",
@@ -82,10 +75,36 @@ class EmployeeViewSet(viewsets.ViewSet):
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+    def retrieve(self,request,pk):
+        try:
+            user = get_object_or_404(User,pk=pk)
+            data = EmployeeDetailSerializer(user).data
+            
+            return Response({
+                "data":data,
+                "message":"User info has been retrieved successfully",
+                "status":"success",
+                "error":None
+            })
+
+
+        except Exception as e:
+            return Response({
+                "data": None,
+                "message": "An error occurred",
+                "status": "error",
+                "error": str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+
+
     @action(detail=True,methods=["post"])   
     def change_status(self,request,pk=None):
         response = dict()
-
         user = get_object_or_404(User,pk=pk)
         status = request.data["status"]
 

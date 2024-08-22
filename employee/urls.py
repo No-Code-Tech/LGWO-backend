@@ -11,8 +11,15 @@ router.register(r'document',DocumentViewSet)
 router.register(r'employee-document',EmployeeDocumentViewSet)
 
 urlpatterns = [
-    path('employees',EmployeeViewSet.as_view({'get':'list','post':'create'})),
-    path('change-status/<int:pk>/',EmployeeViewSet.as_view({'post':'change_status'}))
+    path('employees',EmployeeViewSet.as_view(
+        {'get':'list',
+        'post':'create',
+        }
+        )),
+    path('employee/<int:pk>/',EmployeeViewSet.as_view({
+         'get':'retrieve'
+    })),
+    path('change-status/<str:pk>/',EmployeeViewSet.as_view({'post':'change_status'}))
     ]
 
 

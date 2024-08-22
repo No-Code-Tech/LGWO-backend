@@ -5,6 +5,28 @@ from .document import EmployeeDocumentSerializer
 from user.models import CustomUser
 
 
+
+
+class EmployeeCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = CustomUser
+        fields = ['IID', 'first_name', 'last_name', 'mobile_number', 'password','username']
+        extra_kwargs = {
+            "password":{"write_only":True}
+        }
+    def create(self, validated_data):
+        user = CustomUser.objects.create_user(**validated_data)
+        return user
+
+
+
+
+
+
+
+
+
 class EmployeeTimeSheetField(serializers.RelatedField):
     def to_representation(self, value):
         timesheet = {
@@ -74,14 +96,6 @@ class EmployeeListSerializer(serializers.ModelSerializer):
     class Meta: 
         model = CustomUser
         fields = ("IID",'first_name',"surname","mobile_number")
-
-
-
-class EmployeeCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = CustomUser
-        fields = "__all__"
 
 
 

@@ -2,6 +2,7 @@
 from pathlib import Path
 # from dotenv import load_dotenv,find_dotenv
 import os 
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 # load_dotenv(find_dotenv())
@@ -12,7 +13,8 @@ from decouple import config
 
 
 
-SECRET_KEY = config("SECRET_KEY")
+SECRET_KEY = config("DJANGO_SECRET_KEY")
+DATABASE_KEY = config("DATABASE_URL")
 
 
 DEBUG = True
@@ -85,12 +87,19 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # if os.environ.get("DATABASE")=="SQLITE":
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+
+DATABASES = {'default':dj_database_url.config(
+    default=DATABASE_KEY,
+    conn_max_age=600,
+    conn_health_checks=True,
+)}
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 # if os.environ.get("DATABASE")=="POSTGRES":
     # DATABASES = {
     #     "default": {
@@ -159,3 +168,7 @@ CORS_ALLOWED_ORIGINS = [
 
 
 
+AUTH_USER_MODEL = "user.CustomUser"
+
+
+GOFILE_API_TOKEN = config("GOFILE_API_TOKEN")
