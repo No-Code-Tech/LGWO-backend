@@ -18,7 +18,7 @@ DATABASE_KEY = config("DATABASE_URL")
 
 
 DEBUG = True
-ALLOWED_HOSTS = ['.railway.app','lgwoc.pythonanywhere.com',"127.0.0.1","localhost"]
+ALLOWED_HOSTS = ['*']
 
 
 
