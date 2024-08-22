@@ -90,29 +90,23 @@ WSGI_APPLICATION = 'src.wsgi.application'
 # if os.environ.get("DATABASE")=="SQLITE":
 
 
-DATABASES = {'default':dj_database_url.config(
-    default=DATABASE_KEY,
-    conn_max_age=600,
-    conn_health_checks=True,
-)}
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-# if os.environ.get("DATABASE")=="POSTGRES":
-    # DATABASES = {
-    #     "default": {
-    #         "ENGINE" : "django.db.backends.postgresql",
-    #         "NAME":NAME,
-    #         "USER":USER,
-    #         "PASSWORD":PASSWORD,
-    #         "HOST":HOST,
-    #         "PORT":PORT,
-    #     }
-    # }
+
+if not DEBUG:
+    DATABASES = {'default':dj_database_url.config(
+        default=DATABASE_KEY,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )}
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
 
 
 
