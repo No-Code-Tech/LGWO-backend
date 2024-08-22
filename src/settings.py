@@ -18,10 +18,10 @@ DATABASE_KEY = config("DATABASE_URL")
 
 
 DEBUG = True
-ALLOWED_HOSTS = ['.railway.app','.pythonanywhere.com','lgwoc.pythonanywhere.com']
+ALLOWED_HOSTS = ['.railway.app','lgwoc.pythonanywhere.com',"127.0.0.1","localhost"]
 
-if DEBUG:
-    ALLOWED_HOSTS += ["127.0.0.1","localhost"]
+
+
 
 # if os.environ.get("DATABASE")=="POSTGRES":
 #     SECRET_KEY = os.environ.get('SECRET_KEY')
