@@ -18,8 +18,10 @@ DATABASE_KEY = config("DATABASE_URL")
 
 
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.railway.app']
 
+if DEBUG:
+    ALLOWED_HOSTS = ["127.0.0.1","localhost"]
 
 # if os.environ.get("DATABASE")=="POSTGRES":
 #     SECRET_KEY = os.environ.get('SECRET_KEY')

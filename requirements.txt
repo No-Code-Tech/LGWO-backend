@@ -3,6 +3,7 @@ certifi==2024.7.4
 charset-normalizer==3.3.2
 dj-database-url==2.2.0
 Django==5.0.2
+gunicorn
 django-cors-headers==4.4.0
 django-extensions==3.2.3
 django-filter==23.5
