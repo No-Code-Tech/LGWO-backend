@@ -168,3 +168,6 @@ AUTH_USER_MODEL = "user.CustomUser"
 
 
 GOFILE_API_TOKEN = config("GOFILE_API_TOKEN")
+
+
+STATIC_URL = "/static/"
