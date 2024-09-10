@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from ..serializers import EmployeeCreateSerializer,EmployeeDocumentSerializer,EmployeeListSerializer,DocumentSerializer,EmployeeDetailSerializer
-from ..models import EmployeeDocument,Document
+from ..serializers import EmployeeCreateSerializer,EmployeeDocumentSerializer,EmployeeListSerializer,DocumentSerializer,EmployeeDetailSerializer,EmployeeProfileSerialier
+from ..models import EmployeeDocument,Document,EmployeeProfile
 from ..permissions import IsOwner
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from user.models import CustomUser
@@ -13,55 +13,109 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from ..permissions import GroupRequiredMixin,IsStaff
 from rest_framework import status
+from src.utils.response import error_response,success_response
+from rest_framework import status, viewsets
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
+
+
+
 User = get_user_model()
 
-class EmployeeViewSet(viewsets.ViewSet):
-    # permission_classes = [IsStaff,IsAuthenticated]
-    def list(self,request):
-        try:
-            message = "All employees List"
-            error=None
-            user = CustomUser.objects.all()
 
-            if not user:
-                message = "No employee"
-            serializer_data = EmployeeListSerializer(user,many=True)
-            status = "success"
-            status_code = None
+class EmployeeViewSet(viewsets.ViewSet):
+    # permission_classes = [IsStaff, IsAuthenticated]
+    
+    def list(self, request):
+        """List all employees."""
+        try:
+            employees = CustomUser.objects.all()
+            if not employees:
+                return success_response([], "No employees found", status.HTTP_404_NOT_FOUND)
+            
+            serializer = EmployeeListSerializer(employees, many=True)
+            return success_response(serializer.data, "Employee list retrieved")
 
         except Exception as e:
-                return Response({
-                    "data": None,
-                    "message": "Failed to create user",
-                    "status": "error",
-                    "error": str(e)
-                }, status=status.HTTP_400_BAD_REQUEST)
-
-        return Response({"data":serializer_data.data,
-                        "message":message,
-                        "status":"success",
-                        "error":error
-                        })
+            return error_response("An error occurred while fetching employees", str(e), status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
     def create(self, request):
+        """Create a new employee."""
         try:
             serializer = EmployeeCreateSerializer(data=request.data)
             if serializer.is_valid():
-                
-
                 serializer.save()
-                print("It was here")
-                return Response({
-                    "data": serializer.data,  
-                    "message": "User has been successfully created",
-                    "status": "success",
-                    "error": None
-                })
-            else:
+                return success_response(serializer.data, "Employee created successfully", status.HTTP_201_CREATED)
+
+            return error_response("Failed to create employee", serializer.errors)
+
+        
+        except Exception as e:
+            return error_response("An error occurred while creating employee", str(e), status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    def retrieve(self, request, pk=None):
+        """Retrieve a specific employee."""
+        try:
+            employee = get_object_or_404(CustomUser, pk=pk)
+            serializer = EmployeeDetailSerializer(employee)
+
+            return success_response(serializer.data, "Employee retrieved successfully")
+        
+        except Exception as e:
+            return error_response("An error occurred while retrieving employee",str(e),status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    @action(detail=True, methods=["post"])
+    def change_status(self, request, pk=None):
+        """Change the status of an employee."""
+        try:
+            employee = get_object_or_404(CustomUser, pk=pk)
+            new_status = request.data.get("status")
+
+            if employee.profile.status == new_status:
+                return success_response(None,"No change in status required")
+            
+            employee.profile.status = new_status
+            employee.profile.save()
+
+            return success_response({"status": new_status},f"Status changed to {new_status}")
+        
+        except Exception as e:
+            return Response({
+                "data": None,
+                "message": "Failed to change status",
+                "status": "error",
+                "error": str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=["get", "post"], url_name="profile", url_path="profile")
+    def profile(self, request, pk=None):
+        """Get or update employee profile."""
+        try:
+            profile = get_object_or_404(EmployeeProfile, user=pk)
+            if request.method == "GET":
+                serializer = EmployeeProfileSerialier(profile)
+                return success_response(serializer.data,"Profile retrieved successfully")
+                    
+            elif request.method == "POST":
+                print(request.data,request.method)
+                serializer = EmployeeProfileSerialier(profile, data=request.data, partial=True)
+                print(serializer)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({
+                        "data": serializer.data,
+                        "message": "Profile updated successfully",
+                        "status": "success",
+                        "error": None
+                    }, status=status.HTTP_200_OK)
+                
                 return Response({
                     "data": None,
-                    "message": "Failed to create user",
+                    "message": "Failed to update profile",
                     "status": "error",
                     "error": serializer.errors
                 }, status=status.HTTP_400_BAD_REQUEST)
@@ -69,56 +123,21 @@ class EmployeeViewSet(viewsets.ViewSet):
         except Exception as e:
             return Response({
                 "data": None,
-                "message": "An error occurred",
+                "message": "An error occurred while handling profile",
                 "status": "error",
                 "error": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-    def retrieve(self,request,pk):
-        try:
-            user = get_object_or_404(User,pk=pk)
-            data = EmployeeDetailSerializer(user).data
-            
-            return Response({
-                "data":data,
-                "message":"User info has been retrieved successfully",
-                "status":"success",
-                "error":None
-            })
 
+    @action(detail=True,methods=["get","post"])
+    def timesheet(self,request,pk=None):
+        try:
+            
+            pass
 
         except Exception as e:
-            return Response({
-                "data": None,
-                "message": "An error occurred",
-                "status": "error",
-                "error": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-
-
-
-
-    @action(detail=True,methods=["post"])   
-    def change_status(self,request,pk=None):
-        response = dict()
-        user = get_object_or_404(User,pk=pk)
-        status = request.data["status"]
-
-        if user.profile.status == status:
-            response["message"] = "No need to change status"
-
-        else: 
-            user.profile.status = status
-            user.profile.save()
-            response["message"] = f"Status is changed to {status}"
-        return Response({"data":response})
-
-
-
+            pass
 
 
 

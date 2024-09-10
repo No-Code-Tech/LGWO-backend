@@ -2,6 +2,7 @@ from django.db import models
 from .country import Country
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from src.utils.storage_file import FileStorage
 
 
 '''
@@ -29,11 +30,11 @@ class EmployeeProfile(models.Model):
     last_name = models.CharField(max_length=255)
     country = models.ForeignKey(Country,blank=True,null=True,on_delete=models.SET_NULL,related_name="country")
     contact_number = models.CharField(max_length=255)
-    passport_size_photo = models.FileField(upload_to="employee/profile")
+    passport_size_photo = models.FileField(storage=FileStorage())
     status = models.CharField(
         max_length=10,
         choices=Status,
-        default =Status.NOT_ASSIGNED
+        default = Status.NOT_ASSIGNED
     )
 
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from ..serializers import EmployeeDetailSerializer,BillSerializer,TimeSheetSerializer,EmployeeTimeSheetSerializer,DocumentSerializer,EmployeeDocumentSerializer,EmployeeListSerializer
-from ..models import EmployeeProfile,TimeSheet,Bill,Document,Country,EmployeeTimeSheet,EmployeeDocument
+from ..serializers import EmployeeDetailSerializer,BillSerializer,EmployeeTimeSheetSerializer,DocumentSerializer,EmployeeDocumentSerializer,EmployeeListSerializer
+from ..models import EmployeeProfile,Bill,Document,Country,EmployeeTimeSheet,EmployeeDocument
 from ..permissions import IsOwner
 from rest_framework.permissions import IsAuthenticated,IsAdminUser
 from user.models import CustomUser
@@ -14,11 +14,6 @@ from django.shortcuts import get_object_or_404
 from ..permissions import GroupRequiredMixin
 User = get_user_model()
 
-
-class TimeSheetViewSet(viewsets.ModelViewSet):
-
-    serializer_class = TimeSheetSerializer
-    queryset = TimeSheet.objects.all()
 
 class EmployeeTimeSheetViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeTimeSheetSerializer

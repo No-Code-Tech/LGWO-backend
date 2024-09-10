@@ -5,8 +5,6 @@ from .document import EmployeeDocumentSerializer
 from user.models import CustomUser
 
 
-
-
 class EmployeeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -20,13 +18,6 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
         return user
 
 
-
-
-
-
-
-
-
 class EmployeeTimeSheetField(serializers.RelatedField):
     def to_representation(self, value):
         timesheet = {
@@ -34,7 +25,7 @@ class EmployeeTimeSheetField(serializers.RelatedField):
             "duty_start_time":value.duty_start_time.strftime('%Y-%m-%d'),
             "total_duty_hours":value.total_duty_hours,
             "is_absent":value.is_absent,
-            "client":value.timesheet.client.name,
+            "client":value.client.name,
             "remark":value.remark
         }
         return timesheet
@@ -42,8 +33,6 @@ class EmployeeTimeSheetField(serializers.RelatedField):
 
 
 class EmployeeDocumentField(serializers.RelatedField):
-
-
     def to_representation(self, value):
 
         document_info =  {
