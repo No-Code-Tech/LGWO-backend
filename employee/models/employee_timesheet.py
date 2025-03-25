@@ -21,6 +21,14 @@ class EmployeeTimeSheet(models.Model):
         VERIFIED = "VERIFIED",_("Verified")
 
 
+    class DutyStatus(models.TextChoices):
+        ABSENT = "ABSENT",("Absent")
+        SICK = "SICK",("Sick")
+        LEAVE = "LEAVE",("Leave")
+        PRESENT = "PRESENT",("Present")
+        
+
+
 
     employee = models.ForeignKey(User,related_name="timesheets",on_delete=models.SET_NULL,null=True)
     client = models.ForeignKey(Client, on_delete=models.SET_NULL,null=True)
@@ -37,6 +45,8 @@ class EmployeeTimeSheet(models.Model):
         default =Status.ROSTER
     )    
     is_invoiced = models.BooleanField(default=False)
+
+    duty_status = models.CharField(null=True,blank=True,max_length=10,choices=DutyStatus)
 
 
     def __str__(self):

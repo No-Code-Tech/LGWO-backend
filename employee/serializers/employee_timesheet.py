@@ -9,6 +9,4 @@ class EmployeeTimeSheetSerializer(serializers.ModelSerializer):
         model = EmployeeTimeSheet
         fields = '__all__'
 
-
-
         

@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractBaseUser,AbstractUser
 from django.db import models
 from django.utils import timezone
 from ..manager import CustomUserManager
+from .role import Role
 
 class CustomUser(AbstractUser):
     IID = models.CharField(max_length=255,unique=True)
@@ -11,6 +12,7 @@ class CustomUser(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     mobile_number = models.CharField(max_length=30, unique=True)
+    role = models.ForeignKey(Role,related_name="roles",on_delete=models.SET_NULL,null=True)
 
     
     USERNAME_FIELD = 'IID'

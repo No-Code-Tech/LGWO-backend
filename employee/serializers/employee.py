@@ -9,12 +9,15 @@ class EmployeeCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['IID', 'first_name', 'last_name', 'mobile_number', 'password','username']
+        fields = ['first_name', 'last_name', 'mobile_number', 'password','username']
         extra_kwargs = {
             "password":{"write_only":True}
         }
     def create(self, validated_data):
-        user = CustomUser.objects.create_user(**validated_data)
+        user = CustomUser(**validated_data)
+        user.IID = CustomUser.objects.all().count()
+        user.save()
+
         return user
 
 
@@ -38,7 +41,9 @@ class EmployeeDocumentField(serializers.RelatedField):
         document_info =  {
             "id":value.id,
             "type":{"value":value.document_type.id,"label":value.document_type.name},
-            "url":value.file.url
+            "url":value.file.url,
+            "issued_date":value.issued_date,
+            "expiry_date":value.expiry_date
         }
 
         return document_info
@@ -46,7 +51,6 @@ class EmployeeDocumentField(serializers.RelatedField):
     
     def get_fields(self):
         fields = super().get_fields()
-        print(fields)
         return fields
 
 
@@ -70,9 +74,9 @@ class EmployeeDetailSerializer(serializers.ModelSerializer):
         fields = ("IID",'first_name',"surname","documents","mobile_number",'timesheets',"profile")
 
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['documents'].context.update(self.context)
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['documents'].context.update(self.context)
 
 
     # def to_representation(self, instance):

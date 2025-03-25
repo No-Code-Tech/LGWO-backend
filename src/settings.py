@@ -160,6 +160,7 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 
 CORS_ALLOWED_ORIGINS = [
         "http://localhost:5173",
+        "http://localhost:3000"
 ]
 
 
@@ -177,3 +178,10 @@ STATICFILES_DIRS = [
 ]
 # if config('ENVTYPE') == 'dev':
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
+
+
+# REST_FRAMEWORK = {
+#     "DEFAULT_AUTHENTICATION_CLASSES" :(
+#         "rest_framework_simplejwt.authentication.JWTAuthentication"
+#     )
+# }

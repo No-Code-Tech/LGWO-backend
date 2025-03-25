@@ -59,12 +59,17 @@ class EmployeeViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         """Retrieve a specific employee."""
         try:
-            employee = get_object_or_404(CustomUser, pk=pk)
+            employee = CustomUser.objects.filter(IID=pk).first()
+            
+            if not employee:
+                return error_response(message="No Employee found",status_code=status.HTTP_404_NOT_FOUND,error="No Employee Found")
             serializer = EmployeeDetailSerializer(employee)
+
 
             return success_response(serializer.data, "Employee retrieved successfully")
         
         except Exception as e:
+            print(e)
             return error_response("An error occurred while retrieving employee",str(e),status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
@@ -127,17 +132,6 @@ class EmployeeViewSet(viewsets.ViewSet):
                 "status": "error",
                 "error": str(e)
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
-    @action(detail=True,methods=["get","post"])
-    def timesheet(self,request,pk=None):
-        try:
-            
-            pass
-
-        except Exception as e:
-            pass
 
 
 

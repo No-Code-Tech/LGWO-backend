@@ -15,7 +15,7 @@ def success_response(data,message="Success",status_code=status.HTTP_200_OK):
 
 def error_response(message="Error",error=None,status_code=status.HTTP_400_BAD_REQUEST):
     return Response({
-            "data": None,
+            "data": [],
             "message": message,
             "status": "error",
             "error": error
